@@ -1,0 +1,12 @@
+---
+:id: 104768554
+:submitters:
+- :name: Lee Muita
+  :email: lee.muita@yale.edu
+:created_at: !ruby/object:ActiveSupport::TimeWithZone
+  utc: 2021-12-13 06:59:11.484928000 Z
+  zone: !ruby/object:ActiveSupport::TimeZone
+    name: America/Los_Angeles
+  time: 2021-12-12 22:59:11.484928000 Z
+:status: processed
+:score: 20.0

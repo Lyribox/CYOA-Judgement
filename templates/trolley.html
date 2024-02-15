@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Trolley
+{% endblock %}
+
+{% block main %}
+    <div id="prone">
+        <p>Ah, a classic.</p>
+        <hr>
+        <a href="#" onclick="make_visible('prtwo');">Continue</a>
+    </div>
+
+    <div id="prtwo" style="display: none;">
+        <p>It is a Tuesday afternoon and you are walking along the train tracks as you usually do. When you come to the split tracks, you encounter a grievous situation.</p><p>On the track splitting off, you see a single human tied to the tracks. Even more appalling are the six humans tied to the main track.</p><p>Just as your chest becomes tight, you hear the dreaded sound of a train chiming along towards you and your new acquaintances. Alas, right in front of you is the railroad switch.</p><p>Activate it and the train chimes through the singular individual, leave it and the train continues its course through the six individuals.</p>
+        <hr>
+        <p id="fatal"><a href="#" onclick="make_invisible('utili');make_visible('fatalch');">Leave the situation as it is. This is meant to be.</a></p>
+        <p id="utili"><a href="#" onclick="make_invisible('fatal');make_visible('utilich');">Activate the railroad switch. One death is less unfortunate than six.</a></p>
+    </div>
+
+    <div id="fatalch" style="display: none;">
+        <p>Oh wait, when you focus on the lone human, you realize that it is a famous human.</p><p>A serial killer: with multitudes of confirmed victims and many more suspected. Who on earth could have captured and tied down this monster?</p><p>The same monster that took your precious loved one four years ago. Oh, the horror...the body was barely recognizable when it was recovered. The pain you felt comes back to haunt you.</p><p>You are almost certain that this hellspawn will continue to murder and slaughter if it survives and escapes this ordeal. And yet, the railroad switch waits patiently for the oncoming train’s chimes to hit a crescendo.</p>
+        <hr>
+        <p id="slishfatal"><a href="#" onclick="make_invisible('slessfatal');make_visible('prthree');">Activate the switch and cleanse this world of the stain that is that monster.</a></p>
+        <p id="slessfatal"><a href="#" onclick="make_invisible('slishfatal');make_visible('prthree');">Walk away, run away. For no life is yours to take.</a></p>
+    </div>
+
+    <div id="utilich" style="display: none;">
+        <p>You pull the switch and hear the resounding click and clang of the shifting train tracks.</p><p>Oh, but what’s this? When you focus on the lone human, you realize that you know this human.</p><p>Alas, it is your beloved guardian. What kind of sadistic monster would capture and tie down your precious guardian. The one who has sacrificed so much of themselves to give you this life you live. The one who continually supports your decisions, celebrates the successes and nurses you back from the failures. The one who would swim across the Atlantic to keep you safe and happy.</p><p>The train approaches…</p>
+        <hr>
+        <p id="slishutili"><a href="#" onclick="make_invisible('slessutili');make_visible('prthree');">Pull back the railroad switch. The scales of balance have shifted.</a></p>
+        <p id="slessutili"><a href="#" onclick="make_invisible('slishutili');make_visible('prthree');">Walk away. This changes nothing.</a></p>
+    </div>
+
+    <div id="prthree" style="display: none;">
+        <p>It is done.</p><p>The screams are almost too loud to hear. Or maybe the screams were silenced faster than they could be breathed. Or maybe their screams were never released. Nonetheless, You know that life has been snuffed by that gigantic cacophony of metals, pipes, and steam.</p><p>You made some interesting choices. Let us proceed…</p>
+        <hr>
+        <a href="torture" id="test" onclick="send();">Continue</a>
+    </div>
+    <script>
+        var trait = {"fatal": 0, "utili": 0, "slish": 0, "sless": 0}
+
+        function make_visible(id) {
+            var e = document.getElementById(id);
+            e.style.display = 'block';
+        }
+
+        function make_invisible(id) {
+            var f = document.getElementById(id);
+            f.style.display = 'none';
+        }
+
+        var limit = 0;
+        function show_answer(choice) {
+            var choices = {"chone": "",
+            "chtwo": "",
+            "chthree": "",
+            }
+
+            for (var key in choices) {
+                if (key == choice) {
+                    document.getElementById('answer').innerHTML = choices[key];
+                    limit = limit + 1;
+                }
+            }
+        }
+
+        document.getElementById("fatal").addEventListener('click', () => {
+            trait["fatal"] = trait["fatal"] + 1;
+        }, { once: true });
+
+        document.getElementById("utili").addEventListener('click', () => {
+            trait["utili"] = trait["utili"] + 1;
+        }, { once: true });
+
+        document.getElementById("slishfatal").addEventListener('click', () => {
+            trait["slish"] = trait["slish"] + 1;
+        }, { once: true });
+
+        document.getElementById("slishutili").addEventListener('click', () => {
+            trait["slish"] = trait["slish"] + 1;
+        }, { once: true });
+
+        document.getElementById("slessfatal").addEventListener('click', () => {
+            trait["sless"] = trait["sless"] + 1;
+            trait["fatal"] = trait["fatal"] + 2;
+        }, { once: true });
+
+        document.getElementById("slessutili").addEventListener('click', () => {
+            trait["sless"] = trait["sless"] + 1;
+            trait["utili"] = trait["utili"] + 2;
+        }, { once: true });
+
+        document.getElementById("test").onclick = function(){
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: "/trolley",
+                traditional: "true",
+                data: JSON.stringify(trait),
+                dataType: "json"
+            })
+            }
+
+    </script>
+{% endblock %}

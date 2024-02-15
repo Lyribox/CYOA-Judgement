@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Death
+{% endblock %}
+
+{% block main %}
+    <div id="prone">
+        <p>You are dead.</p>
+        <hr>
+        <a href="#" onclick="make_visible('prtwo');">Continue</a>
+    </div>
+    <div id="prtwo" style="display: none;">
+        <p>Tragic isn’t it? Your dreams are unlived and your wishes unfulfilled.
+            I know what you’re thinking, <i>where even am I? Is this heaven? Is it Jehannum? Nirvana?</i> I guess we’ll never know.
+            Yes, yes, the reaction to this realization is always visceral but we do not have time to waste. You have cases to judge. Come along now.
+        </p>
+        <hr>
+        <a href="#" onclick="make_visible('prthree');">Continue</a>
+    </div>
+    <div id="prthree" style="display: none;">
+        <p>Oh...you have questions...wonderful. I guess I can indulge you a bit, not like we have much going on. Don’t overindulge.</p>
+        <hr>
+        <a href="#" onclick="show_answer('chone');">Who are you?</a> ||
+        <a href="#" onclick="show_answer('chtwo');">Really, where are we?</a> ||
+        <a href="#" onclick="show_answer('chthree');">How did I die?</a>
+    </div>
+    <div id="answer"></div>
+
+    <div id="prfour" style="display: none;">
+        <p>This is going to be a wonderful experience.</p>
+        <hr>
+        <a href="#" onclick="make_visible('prfive');">Are you always this frustrating?</a>
+    </div>
+    <div id="prfive" style="display: none;">
+        <p>I don’t know what you mean.</p><p>Nonetheless, we have some scenarios to resolve. Why am I making you do this? Am I <i>making</i> you do anything? I mean, you’re the one who’s here.<p>Anyway...first scenario.</p><p>And I will thank you to try and be honest with yourself (it’s not like anyone will ever know).</p>
+        <hr>
+        <a href="trolley">Continue</a>
+    </div>
+    <script>
+        function make_visible(id) {
+            var e = document.getElementById(id);
+            e.style.display = 'block';
+        }
+        var limit = 0;
+        function show_answer(choice) {
+            var choices = {"chone": "<p>Heading right for the jugular huh? I wonder who I am...Jod? God? Beyonce? Your consciousness? The afterlife? I am everything, and nothing. Maybe I’m just a dream and you’ll just wake up from your unsanctioned nap in your 9am class. I am. Or am I?</p><p>Oh, don’t give me that look. You couldn’t have expected a real answer to that question.</p>",
+            "chtwo": "<p>IDK. Do you? Look around you, we are surrounded by complete nothingness. Or are you really just staring at a black screen? What is real and what isn’t reality? Suspension of disbelief. What a wonderful concept.</p><p>I am merely an observer. Call me a spectator. A cheerleader, if you will.</p>",
+            "chthree": "<p>Instantly. Then again, what does a slow death imply? Does that mean that life is slowly leaking out of the body through a new unregistered bodily opening like a broken tap? Or does death occur at the moment of complete shutdown? Or maybe life slowly leaks from the body from birth until one’s fated time has come. In that case, you died slowly.</p><p>If you meant what state you were in just before you died, then I can easily answer you.</p><p>You were alive.</p>",
+            "limit": "<p>I believe that’s enough digression. Let us continue.</p>"
+            }
+            if (limit < 2) {
+                for (var key in choices) {
+                    if (key == choice) {
+                        document.getElementById('answer').innerHTML = choices[key];
+                        limit = limit + 1;
+                    }
+                }
+            }
+            else {
+                document.getElementById('answer').innerHTML = choices["limit"];
+                var e = document.getElementById("prfour");
+                e.style.display = 'block'
+            }
+
+        }
+    </script>
+{% endblock %}
